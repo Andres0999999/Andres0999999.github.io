@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: black;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Estrellas */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .fade-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px cyan;
+            animation: fadeEffect 4s linear;
+            opacity: 0;
+        }
+
+        @keyframes fadeEffect {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0;
+            animation: subtitleAppear 2s forwards;
+            animation-delay: 2s;
+        }
+
+        @keyframes subtitleAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #4169e1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            text-decoration: none;
+            opacity: 0;
+            animation: buttonAppear 2s forwards;
+            animation-delay: 3s;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #1e90ff;
+            transform: scale(1.1);
+        }
+
+        @keyframes buttonAppear {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .flowers {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            font-size: 5rem;
+        }
+
+        .flowers.show {
+            animation: showFlowers 2s forwards;
+        }
+
+        @keyframes showFlowers {
+            0% { 
+                opacity: 0;
+                transform: translateX(-50%) scale(0);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+        }
+
+        .flower {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .final-message {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: yellow;
+            font-size: 1.5rem;
+            opacity: 0;
+            width: 90%;
+            max-width: 600px;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .final-message.show {
+            animation: showMessage 2s forwards;
+        }
+
+        @keyframes showMessage {
+            0% { 
+                opacity: 0;
+                transform: translate(-50%, -30%);
+            }
+            100% { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor de estrellas -->
+    <div class="stars"></div>
+
+    <div class="container">
+        <div class="fade-text">Hola Karen</div>
+        <div class="subtitle">De parte de tu novio Andrés<br>¿Quieres ser mi San Valentín? ❤️</div>
+        <button class="button" onclick="showAnimation()">CLICK AQUÍ</button>
+    </div>
+
+    <div class="flowers hidden">
+        <div class="flower">🌻</div>
+        <div class="flower">🌻</div>
+        <div class="flower">🌻</div>
+    </div>
+
+    <div class="final-message hidden">
+        Estas flores amarillas son un reflejo de la alegría que traes a mi vida.<br><br>
+        Siempre agradeceré a Dios por haberte puesto en mi camino. No cabe duda que eres lo más hermoso que me ha pasado en la vida amor. ❤️ ¡TE AMO MUCHO!
+    </div>
+
+    <script>
+        // Crear estrellas
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 200;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Posición aleatoria
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 3;
+                
+                // Duración aleatoria del parpadeo
+                const duration = 2 + Math.random() * 3;
+
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${duration}s`);
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Crear estrellas al cargar la página
+        createStars();
+
+        function showAnimation() {
+            // Ocultamos todo el contenedor con una transición suave
+            const container = document.querySelector('.container');
+            container.classList.add('fade-out');
+
+            setTimeout(() => {
+                container.style.display = 'none';
+                
+                // Mostrar las flores
+                const flowers = document.querySelector('.flowers');
+                flowers.classList.remove('hidden');
+                flowers.classList.add('show');
+                
+                // Mostrar el mensaje final después de 2 segundos
+                setTimeout(() => {
+                    const message = document.querySelector('.final-message');
+                    message.classList.remove('hidden');
+                    message.classList.add('show');
+                }, 2000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
